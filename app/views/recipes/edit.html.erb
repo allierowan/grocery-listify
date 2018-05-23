@@ -1,2 +1,16 @@
-<h1>Recipes#edit</h1>
-<p>Find me in app/views/recipes/edit.html.erb</p>
+<% @recipe.errors.full_messages.each do |message| %>
+    <div class="alert alert-danger"><%= message %></div>
+<% end %>
+
+<%= form_for @recipe do |f| %>
+
+  <div class="form-group">
+    <%= f.label :name %>
+    <%= f.text_field :name %>
+    <%= f.label :url %>
+    <%= f.text_field :url %>
+  </div>
+
+  <%= f.submit "Update", class: "btn btn-primary" %>
+
+<% end %>
