@@ -42,4 +42,12 @@ class RecipesController < ApplicationController
   def recipe_params
     params.require(:recipe).permit(:name, :url)
   end
+
+  def add_recipe_ingredients
+    recipe = Recipe.find(params["id"])
+    grocery_list = GroceryList.find(params["grocery_list_id"])
+    recipe.add_all_ingredients_to(grocery_list.id)
+    @recipes = Recipe.all.reverse
+    render :index
+  end
 end

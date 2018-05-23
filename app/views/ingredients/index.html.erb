@@ -21,7 +21,7 @@
   <% @ingredient.errors.full_messages.each do |message| %>
     <div class="alert alert-danger"><%= message %></div>
   <% end %>
-  
+
   <%= form_for([@recipe, @ingredient]) do |f| %>
 
   <div class="form-group">
@@ -36,4 +36,6 @@
   <%= f.submit "Add", class: "btn btn-primary" %>
 
 <% end %>
+
+<%= link_to "Back to recipes", recipes_path %>
 </ul>

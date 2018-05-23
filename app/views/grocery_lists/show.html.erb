@@ -1,0 +1,23 @@
+<% if @message %>
+  <div class="alert alert-danger">
+    <%= @message %>
+  </div>
+<% end %>
+<h1>Items on Grocery List<%= @grocery_list.date %></h1>
+<ul>
+  <% if @grocery_list.ingredients.length > 0 %>
+    <% @grocery_list.ingredients.each do |ingredient| %>
+      <li>
+        <%= ingredient.quantity %>
+        <%= ingredient.name %>
+        <%= link_to "remove ingredient", recipe_ingredient_path(@grocery_list.id, ingredient.id), method: :delete %>
+      </li>
+    <% end %>
+  <% else %>
+    <p>
+      No ingredients
+    </p>
+  <% end %>
+
+<%= link_to "Back to Grocery Lists", grocery_lists_path %>
+</ul>

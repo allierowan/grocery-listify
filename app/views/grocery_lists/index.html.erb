@@ -1,0 +1,26 @@
+<% if @message %>
+  <div class="alert alert-danger">
+    <%= @message %>
+  </div>
+<% end %>
+<h1>Grocery Lists</h1>
+<ul>
+  <% @grocery_lists.each do |grocery_list| %>
+    <li>
+      <%= grocery_list.date %>
+      <%= link_to "edit", edit_grocery_list_path(grocery_list.id) %>
+      <%= link_to "ingredients", grocery_list_path(grocery_list.id) %>
+      <%= link_to "delete grocery_list", grocery_list_path(grocery_list.id), method: :delete %>
+    </li>
+  <% end %>
+
+  <%= form_for(:grocery_list) do |f| %>
+    <div class="form-group">
+      <%= f.label :date, class: "control-label" %>
+      <%= f.text_field :date, class: "form-control" %>
+    </div>
+
+    <%= f.submit "Add", class: "btn btn-primary" %>
+  <% end %>
+  <%= link_to "Recipes", recipes_path %>
+</ul>

@@ -11,6 +11,8 @@
       <%= link_to "edit", edit_recipe_path(recipe.id) %>
       <%= link_to "ingredients", recipe_ingredients_path(recipe.id) %>
       <%= link_to "delete recipe", recipe_path(recipe.id), method: :delete %>
+      <% grocery_list = GroceryList.first %>
+      <%= link_to "Add ingredients to Grocery List", add_ingredients_path(recipe.id, grocery_list.id), method: :post %>
     </li>
   <% end %>
 
@@ -26,4 +28,5 @@
 
     <%= f.submit "Add", class: "btn btn-primary" %>
   <% end %>
+  <%= link_to "Grocery List", grocery_lists_path %>
 </ul>

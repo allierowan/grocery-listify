@@ -7,17 +7,6 @@ class RecipesControllerTest < ActionDispatch::IntegrationTest
     assert_response :success
   end
 
-  test "should get show" do
-    get recipe_path(recipes(:one).id)
-    assert_response :success
-    assert_match(/Great Recipe/, response.body)
-  end
-
-  test "should get new form" do
-    get new_recipe_path
-    assert_response :success
-  end
-
   test "should get edit form" do
     get edit_recipe_path(recipes(:one).id)
     assert_response :success
