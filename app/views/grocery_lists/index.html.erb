@@ -3,24 +3,46 @@
     <%= @message %>
   </div>
 <% end %>
-<h1>Grocery Lists</h1>
+<% if @success_message %>
+  <div class="alert alert-success">
+    <%= @success_message %>
+  </div>
+<% end %>
+<h1>Grocery List</h1>
+
 <ul>
-  <% @grocery_lists.each do |grocery_list| %>
-    <li>
-      <%= grocery_list.date %>
-      <%= link_to "edit", edit_grocery_list_path(grocery_list.id) %>
-      <%= link_to "ingredients", grocery_list_path(grocery_list.id) %>
-      <%= link_to "delete grocery_list", grocery_list_path(grocery_list.id), method: :delete %>
-    </li>
+  <% if @grocery_list.ingredients.length > 0 %>
+    <% @grocery_list.ingredients.each do |ingredient| %>
+      <li>
+        <%= ingredient.quantity %>
+        <%= ingredient.name %>
+        <%= link_to "remove ingredient", delete_grocery_list_ingredient_path(@grocery_list.id, ingredient.id), method: :delete %>
+        <%= link_to "edit ingredient", edit_ingredient_path(ingredient.id) %>
+      </li>
+    <% end %>
+  <% else %>
+    <p>
+      No ingredients
+    </p>
   <% end %>
-
-  <%= form_for(:grocery_list) do |f| %>
-    <div class="form-group">
-      <%= f.label :date, class: "control-label" %>
-      <%= f.text_field :date, class: "form-control" %>
-    </div>
-
-    <%= f.submit "Add", class: "btn btn-primary" %>
-  <% end %>
-  <%= link_to "Recipes", recipes_path %>
 </ul>
+<%= link_to "Send items to Wunderlist!", post_to_wunderlist_path, method: :post %>
+<div class="row">
+  <div class="col-sm-3">
+    <%= form_for [@grocery_list, @ingredient] do |f| %>
+
+      <div class="form-group">
+        <%= f.label :name, class: "control-label" %>
+        <%= f.text_field :name, class: "form-control" %>
+      </div>
+      <div class="form-group">
+        <%= f.label :quantity, class: "control-label" %>
+        <%= f.text_field :quantity, class: "form-control" %>
+      </div>
+
+      <%= f.submit "Add", class: "btn btn-primary" %>
+    <% end %>
+  </div>
+
+</div>
+<%= link_to "Recipes", recipes_path %>

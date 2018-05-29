@@ -10,7 +10,8 @@
       <li>
         <%= ingredient.quantity %>
         <%= ingredient.name %>
-        <%= link_to "remove ingredient", recipe_ingredient_path(@recipe.id, ingredient.id), method: :delete %>
+        <%= link_to "remove", recipe_ingredient_path(@recipe.id, ingredient.id), method: :delete %> |
+        <%= link_to "edit", edit_ingredient_path(ingredient.id) %>
       </li>
     <% end %>
   <% else %>
@@ -21,21 +22,28 @@
   <% @ingredient.errors.full_messages.each do |message| %>
     <div class="alert alert-danger"><%= message %></div>
   <% end %>
+</ul>
+<div class="row">
+  <div class="col-sm-3">
+    <%= form_for([@recipe, @ingredient]) do |f| %>
 
-  <%= form_for([@recipe, @ingredient]) do |f| %>
+    <div class="form-group">
+      <%= f.label :name, class: "control-label" %>
+      <%= f.text_field :name, class: "form-control" %>
+    </div>
+    <div class="form-group">
+      <%= f.label :quantity, class: "control-label" %>
+      <%= f.text_field :quantity, class: "form-control" %>
+    </div>
 
-  <div class="form-group">
-    <%= f.label :name, class: "control-label" %>
-    <%= f.text_field :name, class: "form-control" %>
+    <%= f.submit "Add", class: "btn btn-primary" %>
+    <% end %>
   </div>
-  <div class="form-group">
-    <%= f.label :quantity, class: "control-label" %>
-    <%= f.text_field :quantity, class: "form-control" %>
+  <div class="col-sm-3">
   </div>
+  <div class="col-sm-3">
+  </div>
+</div>
 
-  <%= f.submit "Add", class: "btn btn-primary" %>
-
-<% end %>
 
 <%= link_to "Back to recipes", recipes_path %>
-</ul>

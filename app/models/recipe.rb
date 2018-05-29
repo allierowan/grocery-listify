@@ -9,6 +9,7 @@ class Recipe < ApplicationRecord
     grocery_list = ::GroceryList.find_by(id: grocery_list_id)
     self.ingredients.each do |ingredient|
       grocery_ingredient = ingredient.dup
+      grocery_ingredient.recipe_id = nil
       grocery_list.ingredients << grocery_ingredient
       grocery_list.save
     end

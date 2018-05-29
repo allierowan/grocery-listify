@@ -1,5 +1,15 @@
+require "pry"
+
 class RecipesController < ApplicationController
   def index
+    # there has to be a grocery list. check if one exists
+    @grocery_list
+    if GroceryList.count == 0
+      @grocery_list = GroceryList.new({date: "Today"})
+      @grocery_list.save
+    else
+      @grocery_list = GroceryList.first
+    end
     @recipes = Recipe.all.reverse
   end
 
@@ -48,6 +58,7 @@ class RecipesController < ApplicationController
     grocery_list = GroceryList.find(params["grocery_list_id"])
     recipe.add_all_ingredients_to(grocery_list.id)
     @recipes = Recipe.all.reverse
+    @grocery_list = grocery_list
     render :index
   end
 end

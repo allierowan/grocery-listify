@@ -3,30 +3,43 @@
     <%= @message %>
   </div>
 <% end %>
-<h1>Recipes</h1>
+<h1>Your Recipes</h1>
 <ul>
   <% @recipes.each do |recipe| %>
     <li>
-      <%= link_to recipe.name, recipe.url %>
-      <%= link_to "edit", edit_recipe_path(recipe.id) %>
-      <%= link_to "ingredients", recipe_ingredients_path(recipe.id) %>
-      <%= link_to "delete recipe", recipe_path(recipe.id), method: :delete %>
-      <% grocery_list = GroceryList.first %>
-      <%= link_to "Add ingredients to Grocery List", add_ingredients_path(recipe.id, grocery_list.id), method: :post %>
+      <h3><%= recipe.name %></h3>
+      <% if recipe.url %>
+        Source: <%= recipe.url %> |
+      <% end %>
+      <%= link_to "edit", edit_recipe_path(recipe.id) %> |
+      <%= link_to "ingredients", recipe_ingredients_path(recipe.id) %> |
+      <%= link_to "delete recipe", recipe_path(recipe.id), method: :delete %> |
+      <%= link_to "Add ingredients to Grocery List", add_ingredients_path(recipe.id, @grocery_list.id), method: :post %>
     </li>
   <% end %>
-
-  <%= form_for(:recipe) do |f| %>
-    <div class="form-group">
-      <%= f.label :name, class: "control-label" %>
-      <%= f.text_field :name, class: "form-control" %>
-    </div>
-    <div class="form-group">
-      <%= f.label :url, class: "control-label" %>
-      <%= f.text_field :url, class: "form-control" %>
-    </div>
-
-    <%= f.submit "Add", class: "btn btn-primary" %>
-  <% end %>
-  <%= link_to "Grocery List", grocery_lists_path %>
 </ul>
+<hr />
+<div class="row">
+  <div class="col-sm-3">
+    <p>
+      Add a Recipe
+      <%= form_for(:recipe) do |f| %>
+        <div class="form-group">
+          <%= f.label :name, class: "control-label" %>
+          <%= f.text_field :name, class: "form-control" %>
+        </div>
+        <div class="form-group">
+          <%= f.label :url, class: "control-label" %>
+          <%= f.text_field :url, class: "form-control" %>
+        </div>
+
+        <%= f.submit "Add", class: "btn btn-primary" %>
+      <% end %>
+      <%= link_to "Grocery List", grocery_lists_path %>
+    </p>
+  </div>
+  <div class="col-sm-3">
+  </div>
+  <div class="col-sm-3">
+  </div>
+</div>
