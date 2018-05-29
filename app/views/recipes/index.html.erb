@@ -6,15 +6,21 @@
 <h1>Your Recipes</h1>
 <ul>
   <% @recipes.each do |recipe| %>
-    <li>
+    <li style="list-style-type: none;">
       <h3><%= recipe.name %></h3>
-      <% if recipe.url %>
-        Source: <%= recipe.url %> |
-      <% end %>
       <%= link_to "edit", edit_recipe_path(recipe.id) %> |
       <%= link_to "ingredients", recipe_ingredients_path(recipe.id) %> |
       <%= link_to "delete recipe", recipe_path(recipe.id), method: :delete %> |
       <%= link_to "Add ingredients to Grocery List", add_ingredients_path(recipe.id, @grocery_list.id), method: :post %>
+      <br />
+      <% if recipe.url %>
+        Source:
+        <% if recipe.url.start_with?("http") %>
+          <%= link_to "Link", recipe.url %>
+        <% else %>
+          <%= recipe.url %>
+        <% end %>
+      <% end %>
     </li>
   <% end %>
 </ul>
@@ -29,7 +35,7 @@
           <%= f.text_field :name, class: "form-control" %>
         </div>
         <div class="form-group">
-          <%= f.label :url, class: "control-label" %>
+          <%= f.label :source, class: "control-label" %>
           <%= f.text_field :url, class: "form-control" %>
         </div>
 

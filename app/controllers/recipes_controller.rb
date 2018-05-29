@@ -31,7 +31,7 @@ class RecipesController < ApplicationController
     if @recipe.save
       redirect_to recipes_path, flash: { success: "Recipe created" }
     else
-      render :new
+      render :index
     end
   end
 

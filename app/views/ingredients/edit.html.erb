@@ -11,3 +11,7 @@
 
   <%= f.submit "Update", class: "btn btn-primary" %>
 <% end %>
+<% if @ingredient.recipe %>
+  <%= link_to "Back to Recipe", recipe_ingredients_path(@ingredient.recipe.id) %> |
+<% end %>
+<%= link_to "Grocery List", grocery_lists_path %>
