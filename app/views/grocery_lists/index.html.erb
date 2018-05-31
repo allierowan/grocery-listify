@@ -14,10 +14,11 @@
   <% if @grocery_list.ingredients.length > 0 %>
     <% @grocery_list.ingredients.each do |ingredient| %>
       <li>
-        <%= ingredient.quantity %>
+        <%= "%g" % ("%.2f" % ingredient.quantity) %>
+        <%= ingredient.unit %>
         <%= ingredient.name %>
-        <%= link_to "remove ingredient", delete_grocery_list_ingredient_path(@grocery_list.id, ingredient.id), method: :delete %>
-        <%= link_to "edit ingredient", edit_ingredient_path(ingredient.id) %>
+        <%= link_to "remove ingredient", ingredient_path(ingredient.parent_list_type, ingredient.parent_list_id, ingredient.id), method: :delete %>
+        <%= link_to "edit ingredient", edit_ingredient_path(ingredient.parent_list_type, ingredient.parent_list_id, ingredient.id) %>
       </li>
     <% end %>
   <% else %>
@@ -29,7 +30,7 @@
 <%= link_to "Send items to Wunderlist!", post_to_wunderlist_path, method: :post %>
 <div class="row">
   <div class="col-sm-3">
-    <%= form_for [@grocery_list, @ingredient] do |f| %>
+    <%= form_for @ingredient, url: ingredients_path(parent_list_type: "grocery_list", parent_list_id: @grocery_list.id) do |f| %>
 
       <div class="form-group">
         <%= f.label :name, class: "control-label" %>

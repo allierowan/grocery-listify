@@ -10,24 +10,26 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2018_05_23_193631) do
+ActiveRecord::Schema.define(version: 2018_05_31_010001) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
   create_table "grocery_lists", force: :cascade do |t|
-    t.string "date"
+    t.string "name"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
 
   create_table "ingredients", force: :cascade do |t|
     t.string "name"
-    t.string "quantity"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.integer "recipe_id"
-    t.integer "grocery_list_id"
+    t.string "unit"
+    t.float "quantity"
+    t.string "parent_list_type"
+    t.bigint "parent_list_id"
+    t.index ["parent_list_type", "parent_list_id"], name: "index_ingredients_on_parent_list_type_and_parent_list_id"
   end
 
   create_table "recipes", force: :cascade do |t|

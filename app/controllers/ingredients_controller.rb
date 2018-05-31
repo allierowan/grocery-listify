@@ -1,10 +1,11 @@
 require 'pry'
 
 class IngredientsController < ApplicationController
+  before_action :find_parent_list
+
   def index
-    @recipe = Recipe.find(params["recipe_id"])
     @ingredient = Ingredient.new()
-    @ingredients = @recipe.ingredients
+    @ingredients = @parent_list.ingredients
   end
 
   def show
@@ -12,7 +13,6 @@ class IngredientsController < ApplicationController
   end
 
   def new
-    @recipe = Recipe.find(params["recipe_id"])
     @ingredient = Ingredient.new()
     render :new
   end
@@ -22,51 +22,32 @@ class IngredientsController < ApplicationController
   end
 
   def create
-    @recipe = Recipe.find(params["recipe_id"])
-    @ingredient = @recipe.ingredients.build(ingredient_params)
-    if @ingredient.save
-      redirect_to recipe_ingredients_path, flash: { success: "Ingredient created" }
-    else
-      @recipe = Recipe.find(params["recipe_id"])
-      @ingredients = @recipe.ingredients
-      render :index
-    end
+    @ingredient = @parent_list.ingredients.build(ingredient_params)
+    @ingredient.save
+    redirect_to :controller => @parent_list.class.to_s.underscore.pluralize.downcase, action: :index, id: @parent_list.id
   end
 
   def destroy
     Ingredient.find(params["id"]).destroy
-    redirect_to recipe_ingredients_path
-  end
-
-  def destroy_grocery_list_ingredient
-    Ingredient.find(params["id"]).destroy
-    redirect_to grocery_lists_path
-  end
-
-  def create_grocery_list_ingredient
-    @grocery_list = GroceryList.first
-    @ingredient = @grocery_list.ingredients.build(ingredient_params)
-    if @ingredient.save
-      redirect_to grocery_lists_path, flash: { success: "Ingredient created" }
-    else
-      redirect_to grocery_lists_path
-    end
+    redirect_to ingredients_path(params[:parent_list_type], params[:parent_list_id])
   end
 
   def update
     @ingredient = Ingredient.find(params["id"])
     if @ingredient.update(ingredient_params)
-      if @ingredient.recipe
-        redirect_to recipe_ingredients_path(@ingredient.recipe.id)
-      else
-        redirect_to grocery_lists_path
-      end
+      redirect_to ingredients_path(@ingredient.parent_list_type, @ingredient.parent_list_id)
     else
       @message = "Unable to save your ingredient"
     end
   end
 
   def ingredient_params
-    params.require(:ingredient).permit(:name, :quantity)
+    params.require(:ingredient).permit(:name, :quantity, :unit)
+  end
+
+  private
+  def find_parent_list
+    @klass = params[:parent_list_type].camelize.constantize
+    @parent_list = @klass.find(params[:parent_list_id])
   end
 end

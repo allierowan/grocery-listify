@@ -9,7 +9,7 @@
     <li style="list-style-type: none;">
       <h3><%= recipe.name %></h3>
       <%= link_to "edit", edit_recipe_path(recipe.id) %> |
-      <%= link_to "ingredients", recipe_ingredients_path(recipe.id) %> |
+      <%= link_to "ingredients", ingredients_path("Recipe", recipe.id) %> |
       <%= link_to "delete recipe", recipe_path(recipe.id), method: :delete %> |
       <%= link_to "Add ingredients to Grocery List", add_ingredients_path(recipe.id, @grocery_list.id), method: :post %>
       <br />

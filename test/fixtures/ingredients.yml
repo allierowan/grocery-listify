@@ -3,19 +3,19 @@
 one:
   name: Apples
   quantity: 5
-  recipe: one
+  parent_list: one (Recipe)
 
 two:
   name: MyString
   quantity: MyString
-  recipe: two
+  parent_list: two (Recipe)
 
 three:
   name: Test
   quantity: four
-  recipe: one
+  parent_list: one (Recipe)
 
 four:
   name: Peanuts
   quantity: 1 cup
-  recipe: one
+  parent_list: one (Recipe)

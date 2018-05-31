@@ -1,17 +1,51 @@
-<%= form_for(@ingredient) do |f| %>
-
-  <div class="form-group">
-    <%= f.label :name, class: "control-label" %>
-    <%= f.text_field :name, class: "form-control" %>
+<% @ingredient.errors.full_messages.each do |message| %>
+  <div class="alert alert-danger">
+    <%= message %>
   </div>
-  <div class="form-group">
-    <%= f.label :quantity, class: "control-label" %>
-    <%= f.text_field :quantity, class: "form-control" %>
-  </div>
-
-  <%= f.submit "Update", class: "btn btn-primary" %>
 <% end %>
-<% if @ingredient.recipe %>
-  <%= link_to "Back to Recipe", recipe_ingredients_path(@ingredient.recipe.id) %> |
+
+<% if @message %>
+  <div class="alert alert-danger">
+    <%= @message %>
+  </div>
+<% end %>
+
+<h1>Ingredients for <%= @parent_list.name %></h1>
+<ul>
+  <% @parent_list.ingredients.each do |ingredient| %>
+
+    <% if @ingredient == ingredient %>
+      <%= form_for @ingredient, url: ingredient_path(parent_list_type: ingredient.parent_list_type, parent_list_id: ingredient.parent_list_id, id: ingredient.id) do |f| %>
+        <div class="form-group">
+          <%= f.label :name, class: "control-label" %>
+          <%= f.text_field :name, class: "form-control" %>
+        </div>
+        <div class="form-group">
+          <%= f.label :quantity, class: "control-label" %>
+          <%= f.text_field :quantity, class: "form-control" %>
+        </div>
+        <div class="form-group">
+          <%= f.label :unit, class: "control-label" %>
+          <%= f.text_field :unit, class: "form-control" %>
+        </div>
+        <%= f.submit "Update", class: "btn btn-primary" %>
+      <% end %>
+    <% else %>
+      <li>
+        <%= "%g" % ("%.2f" % ingredient.quantity) %>
+        <%= ingredient.unit %>
+        <%= ingredient.name %>
+        <%= link_to "remove", ingredient_path(ingredient.parent_list_type, ingredient.parent_list_id, ingredient.id), method: :delete %> |
+        <%= link_to "edit", edit_ingredient_path(ingredient.parent_list_type, ingredient.parent_list_id, ingredient.id) %>
+      </li>
+    <% end %>
+
+  <% end %>
+</ul>
+
+<%= link_to "Back to recipes", recipes_path %>
+
+<% if @ingredient.parent_list_type == "recipe" %>
+  <%= link_to "Back to Recipe", recipe_path(@ingredient.recipe.id) %> |
 <% end %>
 <%= link_to "Grocery List", grocery_lists_path %>

@@ -1,7 +1,8 @@
 require 'test_helper'
 
 class GroceryListsControllerTest < ActionDispatch::IntegrationTest
-  # test "the truth" do
-  #   assert true
-  # end
+  test "can get index" do
+    get grocery_lists_path
+    assert_response :success
+  end
 end
