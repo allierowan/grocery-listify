@@ -26,6 +26,6 @@ class GroceryListsController < ApplicationController
   end
 
   def grocery_list_params
-    params.require(:grocery_list).permit(:date)
+    params.require(:grocery_list).permit(:name)
   end
 end

@@ -2,7 +2,7 @@ require 'test_helper'
 
 class GroceryListTest < ActiveSupport::TestCase
   test "can consolidate same ingredients" do
-    grocery_list = GroceryList.new({date: "Today"})
+    grocery_list = GroceryList.new({name: "Today"})
     grocery_list.ingredients.build({name: "Apples", unit: "lb", quantity: 5})
     grocery_list.ingredients.build({name: "Apples", unit: "lb", quantity: 2})
     grocery_list.save
