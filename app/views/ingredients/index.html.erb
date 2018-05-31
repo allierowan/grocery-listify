@@ -3,7 +3,11 @@
     <%= @message %>
   </div>
 <% end %>
-<h1>Ingredients for <%= @parent_list.name %></h1>
+<% if @parent_list.class == GroceryList %>
+  <h1>Grocery List</h1>
+<% else %>
+  <h1>Ingredients for <%= @parent_list.name%></h1>
+<% end %>
 <ul>
   <% if @ingredients.length > 0 %>
     <% @ingredients.each do |ingredient| %>
